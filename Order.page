@@ -1,0 +1,95 @@
+<apex:page controller="OrderController">
+<head lang="en">
+<meta charset="utf-8"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+<apex:slds />
+<div class="slds-grid slds-page-header">
+    <div class="slds-col slds-media__body slds-size_1-of-2">
+      <h1 class="slds-page-header__title slds-text-align_center" title="Contact Information">Contact Information</h1>
+  </div>
+   <div class="slds-col slds-media__body slds-size_1-of-2">
+      <h1 class="slds-page-header__title slds-text-align_center" title="Product Information">Product Information</h1>
+    </div>
+</div>
+<script>
+    function onChangeUnits(){
+        var UnitsAvailable = Number($("[name$=Units_Available__c]").val());
+        var Units = Number($("[name$=Units__c]").val());
+        var Price = $("[name$=Unit_Price__c]").val();
+        var Amount = Units * Price;
+        $("[id$=Order_Amount__c]").val( Amount );
+        $("[id$=OrderAmountText]").html( Amount + '$' );
+        return true;
+    };
+</script>
+<apex:form id="theForm">
+
+    <apex:pageBlock mode="edit">
+    <apex:pageMessages id="showmsg"></apex:pageMessages>
+        <div class="slds-grid slds-page-header">
+        <div class="slds-form slds-form_horizontal slds-size_1-of-2">
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-id-01">Email</label>
+            <div class="slds-form-element__control">
+              <apex:inputField value="{!contact.Email}"/>
+        
+            </div>
+          </div>
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-id-01">First Name</label>
+            <div class="slds-form-element__control">
+               <apex:inputField value="{!contact.FirstName}"/>
+        
+            </div>
+          </div>
+           <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-id-01">Last Name</label>
+            <div class="slds-form-element__control">
+                <apex:inputField value="{!contact.LastName}"/>
+        
+            </div>
+          </div>
+        </div>
+        
+        <div class="slds-form slds-form_horizontal slds-size_1-of-2">
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-id-01">Product Name</label>
+            <div class="slds-form-element__control">
+                <apex:outputText value="{!product.Name}"/>
+            </div>
+          </div>
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-id-01">Cost</label>
+            <div class="slds-form-element__control">
+                <apex:inputHidden value="{!product.Unit_Price__c}" id="Unit_Price__c"/>
+                <apex:outputText id="UnitPricec" value="{!product.Unit_Price__c}$" />
+            </div>
+          </div>
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-id-01">Unit Count</label>
+            <div class="slds-form-element__control">
+                <apex:inputField id="Units__c" onChange="onChangeUnits()" value="{!order.Units__c}"/>
+                <apex:outputText id="ProductUnitsInStock" value=" {!product.Units_Available__c}"> In Stock </apex:outputText>
+            </div>
+          </div>
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-id-01">Total Amount</label>
+            <div class="slds-form-element__control">
+                <apex:inputHidden value="{!product.Units_Available__c}" id="Units_Available__c"/>
+                <apex:inputHidden value="{!order.Order_Amount__c}" id="Order_Amount__c"/>
+                <apex:outputText id="OrderAmountText" value="{!order.Order_Amount__c}" />
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="slds-grid">
+        <div style="height: 180px;" class="slds-size_1-of-1 slds-text-align_center slds-m-top_x-large" >
+            <button type="button" class="slds-button slds-button_neutral" onclick="window.location.href='{!URLFOR($Page.List)}'">To Shopping</button>
+            <input type="button" class="slds-button slds-button_success" onclick="actionFunction();" value="Confirm"/>
+            <apex:actionFunction name="actionFunction" action="{!confirm}" rerender="showmsg"/>
+        </div>
+       </div>
+    </apex:pageBlock>
+</apex:form>
+</apex:page>
