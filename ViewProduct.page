@@ -1,0 +1,37 @@
+<apex:page standardController="Product_Table__c">
+<apex:slds />
+<div class="slds-page-header">
+  <div class="slds-media">
+    <div class="slds-media__body">
+      <h1 class="slds-page-header__title slds-text-align_center" title="Product List">{!Product_Table__c.Name}</h1>
+    </div>
+  </div>
+</div>
+<div class="slds-grid slds-wrap">
+  <div class="slds-col slds-grid slds-size_1-of-1">
+    <div class="slds-col slds-size_1-of-3">
+      <apex:image url="{!Product_Table__c.Image_Url__c}" />
+    </div>
+    <div class="slds-col slds-m-top_x-large slds-size_2-of-3">
+
+      <div class="slds-col slds-size_1-of-1 slds-text-title_caps slds-m-top_medium">cost:</div>
+      <div class="slds-col slds-size_1-of-1"><apex:outputText label="cost" value="{0, number, ###,##0}"><apex:param value="{! Product_Table__c.Unit_Price__c }"/>$</apex:outputText></div>
+      
+      <div class="slds-col slds-size_1-of-1 slds-text-title_caps slds-m-top_medium">amount:</div>
+      <div class="slds-col slds-size_1-of-1"><apex:outputText label="cost" value="{0, number, ###,##0}"><apex:param value="{! Product_Table__c.Units_Available__c}"/></apex:outputText></div>
+
+      <div class="slds-col slds-size_1-of-1 slds-text-title_caps slds-m-top_medium">title:</div>
+      <div class="slds-col slds-size_1-of-1">{! Product_Table__c.Title__c}</div>
+      
+      <div class="slds-col slds-size_1-of-1 slds-text-title_caps slds-m-top_medium">description:</div>
+      <div class="slds-col slds-size_1-of-1">{! Product_Table__c.Product_Description__c}</div> 
+    </div>
+  </div>
+</div>
+<div style="height: 180px;">
+  <div class="slds-docked-form-footer">
+    <button type="button" class="slds-button slds-button_neutral" onclick="window.location.href='{!URLFOR($Page.List)}'">To Shopping</button>
+    <button type="button" class="slds-button slds-button_success" onclick="window.location.href='{!URLFOR($Page.Order,'',[Id=Product_Table__c.Id])}'">Buy</button>
+  </div>
+</div>
+</apex:page>
